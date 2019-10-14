@@ -1,0 +1,37 @@
+#wrapper
+{
+    
+}
+
+.countdown-title-style
+{
+    color: black;
+    font-size: 35px;
+    height: 47px;
+}
+
+.winning-choice-title-style
+{
+    color: black;
+    font-size: 51px;
+    height: 61px;
+    color: red;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.board-color
+{
+    background-color:white;
+    height:500px;
+}
+
+.choice
+{
+    text-align:center;
+}
+
+.chosen-display
+{
+    height: 100%;
+    align-content: center;  
+}

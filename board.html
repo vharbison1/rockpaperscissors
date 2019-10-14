@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock Paper Scissors</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://kit.fontawesome.com/e5bd83b59d.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div id="wrapper" class="rounded border border-success">
+            <div class="container">
+                <div class="row">
+                <div id="countdown-title" class="col-12 countdown-title-style"></div>
+                <div id="winning-choice-title" class="col-12 text-center winning-choice-title-style"></div>
+                </div>
+                <div class="row">
+                    <div class="col board-color"><span id="player1choice" class="chosen-display row justify-content-center"></span></div>
+                    <div class="col board-color"><span id="player2choice" class="chosen-display row justify-content-center"></span></div>
+                </div>
+            </div>
+            <div class="container text-center">
+            <button type="button" id="rock" class="btn btn-success choice"><i class="fas fa-hand-rock fa-3x"></i></button>  
+            <button type="button" id="paper" class="btn btn-success choice"><i class="fas fa-hand-paper fa-3x"></i></button> 
+            <button type="button" id="scissor" class="btn btn-success choice"><i class="fas fa-hand-scissors fa-3x"></i></button>  
+            </div>       
+        </div>  
+    </body>
+    <script type="text/javascript">
+
+    var board = {
+        player1: {choice : ''},
+        player2: {choice : ''},
+        choice: ['rock', 'paper', 'scissors'],
+        initialize: function()
+        {
+            //Passing off the variable of the function to initialize.
+            //if We did the (), it would immediately invoke the function.
+            setTimeout(this.setFunctionToInit, 4000);
+        },
+        setFunctionToInit : function()
+        {
+            board.win();
+        },
+        win: function()
+        {
+            //randomize player1 choice if not chosen any items after 4 seconds.
+            if(this.player1.choice == '')
+            {
+                this.player1.choice = this.choice[this.randomChoice()];
+            }
+
+            //this console.log just test to make sure the choices went through
+            console.log(this.player1.choice);
+            console.log(this.player2.choice);
+            
+            //Set the Icons On Left And Right
+            this.populateSpanFromChosenItems(this.player1.choice,this.player2.choice);
+
+            //Rock Wins, rock beats scissor
+            //this.choice[0] refers to rock, 
+            //this.choice[2] refers to scissor
+            if((this.player1.choice == this.choice[0] || this.player2.choice == this.choice[0]) && (this.player1.choice == this.choice[2] || this.player2.choice == this.choice[2]))
+            {
+                document.getElementById("winning-choice-title").innerHTML = "ROCK WINS!"
+            } 
+
+            //Paper Wins, paper beats rock
+            //this.choice[1] refers to paper, 
+            //this.choice[0] refers to rock
+            else if((this.player1.choice == this.choice[1] || this.player2.choice == this.choice[1]) && (this.player1.choice == this.choice[0] || this.player2.choice == this.choice[0]))
+            {
+                document.getElementById("winning-choice-title").innerHTML = "PAPER WINS!"
+            }  
+            //Scissor Wins, scissor beats paper
+            //this.choice[2] refers to scissor, 
+            //this.choice[1] refers to paper
+            else if((this.player1.choice == this.choice[2] || this.player2.choice == this.choice[2]) && (this.player1.choice == this.choice[1] || this.player2.choice == this.choice[1]))
+            {
+                document.getElementById("winning-choice-title").innerHTML = "SCISSORS WINS!"
+            }
+            //Both Players Choose Same choice
+            else 
+            {
+                document.getElementById("winning-choice-title").innerHTML = "DRAW!"
+            }
+
+           // var interval = setTimeout.(this.win, 1000);
+        },
+        randomChoice : function()
+        {
+            //Returns random array element 
+            //Math.random() produces value 0-1. Math.floor(xxx) grabs a parameter which is our choice.length (3)
+            //Then math.floor the multipled values to get an integer. 
+            //This will be called if player1 doesnt choose value. However, since player2 is PC, this will be used.
+            return Math.floor(Math.random()*Math.floor(this.choice.length));
+        },
+        countDown : function()
+        {
+            var titleElement = document.getElementById('countdown-title');
+
+            //Small bug here where I need an extra element 
+            var countdowns = ['Rock...', 'Paper....Scissors....', 'Says...Shoot!','']; 
+
+                var countdownIntervalFunction = function(){ 
+                        
+                        var countdown = countdowns.shift();
+
+                        if(countdowns.length> 0) {
+                            titleElement.append(countdown);
+                        } else {
+                            clearInterval(myAnimalInterval);
+                        }
+                
+                    };
+            var setCountDownInterval = setInterval(countdownIntervalFunction, 1000);
+        },
+        setPlayerChoice : function()
+        {
+            //This grabs the player1 choice
+            //I did not include this.xxx for the player1 because the player1.choice is being outside of the object
+            document.querySelector("#rock").onclick = function(event) 
+            {  board.player1.choice = "rock"; } 
+
+            document.querySelector("#paper").onclick = function(event) 
+            {  board.player1.choice = "paper";}
+
+            document.querySelector("#scissor").onclick = function(event) 
+            {  board.player1.choice = "scissors";}
+
+            //Calls randomChoice function to grab random element. i.e this.choice[randomElement (0-2)]
+            //player2 is PC
+            this.player2.choice = this.choice[this.randomChoice()];
+           return true;
+        },
+        populateSpanFromChosenItems : function(player1span,player2span)
+        {
+            document.getElementById("player1choice").innerHTML = "<i class='fas fa-hand-"+player1span+" fa-7x'></i>";
+            document.getElementById("player2choice").innerHTML = "<i class='fas fa-hand-"+player2span+" fa-7x'></i>";
+        }
+    }
+
+    board.countDown();
+
+    //Invoke the setPlayerchoice, so the onclick function is immediately activated
+    board.setPlayerChoice();
+
+    //initialize the function
+    board.initialize();
+
+    </script>
+</html>
