@@ -19,6 +19,7 @@
                 </div>
             </div>
             <div class="container text-center">
+            <button type="button" id="reset" class="btn btn-warning choice">RESET</button>  
             <button type="button" id="rock" class="btn btn-success choice"><i class="fas fa-hand-rock fa-3x"></i></button>  
             <button type="button" id="paper" class="btn btn-success choice"><i class="fas fa-hand-paper fa-3x"></i></button> 
             <button type="button" id="scissor" class="btn btn-success choice"><i class="fas fa-hand-scissors fa-3x"></i></button>  
@@ -26,6 +27,20 @@
         </div>  
     </body>
     <script type="text/javascript">
+
+    //This grabs the player1 choice
+    //I did not include this.xxx for the player1 because the player1.choice is being outside of the object
+    document.querySelector("#rock").onclick = function(event) 
+    {  board.player1.choice = "rock"; } 
+
+    document.querySelector("#paper").onclick = function(event) 
+    {  board.player1.choice = "paper";}
+
+    document.querySelector("#scissor").onclick = function(event) 
+    {  board.player1.choice = "scissors";}
+
+    document.querySelector("#reset").onclick = function(event) 
+    {  board.reset(); }
 
     var board = {
         player1: {choice : ''},
@@ -116,17 +131,6 @@
         },
         setPlayerChoice : function()
         {
-            //This grabs the player1 choice
-            //I did not include this.xxx for the player1 because the player1.choice is being outside of the object
-            document.querySelector("#rock").onclick = function(event) 
-            {  board.player1.choice = "rock"; } 
-
-            document.querySelector("#paper").onclick = function(event) 
-            {  board.player1.choice = "paper";}
-
-            document.querySelector("#scissor").onclick = function(event) 
-            {  board.player1.choice = "scissors";}
-
             //Calls randomChoice function to grab random element. i.e this.choice[randomElement (0-2)]
             //player2 is PC
             this.player2.choice = this.choice[this.randomChoice()];
@@ -136,6 +140,17 @@
         {
             document.getElementById("player1choice").innerHTML = "<i class='fas fa-hand-"+player1span+" fa-7x'></i>";
             document.getElementById("player2choice").innerHTML = "<i class='fas fa-hand-"+player2span+" fa-7x'></i>";
+        },
+        reset : function()
+        {
+            document.getElementById("player1choice").innerHTML = '';
+            document.getElementById("player2choice").innerHTML = '';
+            document.getElementById('countdown-title').innerHTML = '';
+            document.getElementById('winning-choice-title').innerHTML = '';
+            
+            this.countDown();
+            this.setPlayerChoice();
+            this.initialize();
         }
     }
 
