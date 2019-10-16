@@ -30,16 +30,17 @@
 
     //This grabs the player1 choice
     //I did not include this.xxx for the player1 because the player1.choice is being outside of the object
-    document.querySelector("#rock").onclick = function(event) 
+    //document.getlementb
+    document.getElementById("rock").onclick = function(event) 
     {  board.player1.choice = "rock"; } 
 
-    document.querySelector("#paper").onclick = function(event) 
+    document.getElementById("paper").onclick = function(event) 
     {  board.player1.choice = "paper";}
 
-    document.querySelector("#scissor").onclick = function(event) 
+    document.getElementById("scissor").onclick = function(event) 
     {  board.player1.choice = "scissors";}
 
-    document.querySelector("#reset").onclick = function(event) 
+    document.getElementById("reset").onclick = function(event) 
     {  board.reset(); }
 
     var board = {
@@ -107,7 +108,7 @@
             //Math.random() produces value 0-1. Math.floor(xxx) grabs a parameter which is our choice.length (3)
             //Then math.floor the multipled values to get an integer. 
             //This will be called if player1 doesnt choose value. However, since player2 is PC, this will be used.
-            return Math.floor(Math.random()*Math.floor(this.choice.length));
+            return Math.floor(Math.random()*this.choice.length);
         },
         countDown : function()
         {
@@ -123,7 +124,7 @@
                         if(countdowns.length> 0) {
                             titleElement.append(countdown);
                         } else {
-                            clearInterval(myAnimalInterval);
+                            clearInterval(setCountDownInterval);
                         }
                 
                     };
