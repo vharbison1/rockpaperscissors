@@ -19,10 +19,11 @@
                 </div>
             </div>
             <div class="container text-center">
-            <button type="button" id="reset" class="btn btn-warning choice">RESET</button>  
-            <button type="button" id="rock" class="btn btn-success choice"><i class="fas fa-hand-rock fa-3x"></i></button>  
-            <button type="button" id="paper" class="btn btn-success choice"><i class="fas fa-hand-paper fa-3x"></i></button> 
-            <button type="button" id="scissor" class="btn btn-success choice"><i class="fas fa-hand-scissors fa-3x"></i></button>  
+            <button type="button" id="start" class="btn btn-success choice">START</button>  
+            <button type="button" id="reset" class="btn btn-warning choice" style="display:none">RESET</button>  
+            <button type="button" id="rock" class="btn btn-info choice"><i class="fas fa-hand-rock fa-3x"></i></button>  
+            <button type="button" id="paper" class="btn btn-info choice"><i class="fas fa-hand-paper fa-3x"></i></button> 
+            <button type="button" id="scissor" class="btn btn-info choice"><i class="fas fa-hand-scissors fa-3x"></i></button>  
             </div>       
         </div>  
     </body>
@@ -41,7 +42,16 @@
     {  board.player1.choice = "scissors";}
 
     document.getElementById("reset").onclick = function(event) 
-    {  board.reset(); }
+    {   this.disabled = true; //This is so user doesn't immediately hit the reset button.
+        board.reset(); 
+    }
+
+    document.getElementById("start").onclick = function(event) 
+    {   this.style.display = "none"; 
+        document.getElementById("reset").disabled = true; //This is so user doesn't immediately hit the reset button.
+        document.getElementById("reset").style.display = "inline-block"; 
+        board.start(); 
+    }
 
     var board = {
         player1: {choice : ''},
@@ -123,11 +133,15 @@
 
                         if(countdowns.length> 0) {
                             titleElement.append(countdown);
+                            document.getElementById("reset").disabled = true;
                         } else {
+                            document.getElementById("reset").disabled = false;
                             clearInterval(setCountDownInterval);
                         }
                 
                     };
+
+            
             var setCountDownInterval = setInterval(countdownIntervalFunction, 1000);
         },
         setPlayerChoice : function()
@@ -152,16 +166,18 @@
             this.countDown();
             this.setPlayerChoice();
             this.initialize();
+        },
+        start : function()
+        {
+            this.countDown();
+            //Invoke the setPlayerchoice, so the randomized function for player2 is immediately activated
+            this.setPlayerChoice();
+            //initialize the function
+            this.initialize();
         }
     }
 
-    board.countDown();
 
-    //Invoke the setPlayerchoice, so the randomized function for player2 is immediately activated
-    board.setPlayerChoice();
-
-    //initialize the function
-    board.initialize();
 
     </script>
 </html>
